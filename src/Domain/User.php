@@ -109,7 +109,7 @@ abstract class User
         $this->created = new \DateTimeImmutable($user['created'], $timezone);
         $this->updated = new \DateTimeImmutable($user['updated'], $timezone);
 
-        $this->alias = array_map(function($alias) {
+        $this->alias = array_map(function ($alias) {
             return Alias::fromArray($alias);
         }, $user['alias']);
 
@@ -123,7 +123,7 @@ abstract class User
         $this->mainAddress = Address::fromArray($user['address_main']);
         $this->postalAddress = Address::fromArray($user['address_postal']);
 
-        $this->notificationFilters = array_map(function($notificationFilter) {
+        $this->notificationFilters = array_map(function ($notificationFilter) {
             return NotificationFilter::fromArray($notificationFilter);
         }, $user['notification_filters']);
     }

@@ -64,7 +64,7 @@ final class Alias
      */
     private function guardValidType(string $type)
     {
-        switch($type) {
+        switch ($type) {
             case self::TYPE_PHONE_NUMBER:
             case self::TYPE_EMAIL:
             case self::TYPE_IBAN:

@@ -30,10 +30,10 @@
     },
     "scripts": {
         "phpcs": [
-            "./vendor/bin/php-cs-fixer --dry-run"
+            "./vendor/bin/php-cs-fixer fix -v --diff --dry-run --using-cache=no src"
         ],
         "phpcs-fix": [
-            "./vendor/bin/php-cs-fixer"
+            "./vendor/bin/php-cs-fixer fix -v --diff --using-cache=no src"
         ],
         "phpunit": [
             "./vendor/bin/phpunit --coverage-text"

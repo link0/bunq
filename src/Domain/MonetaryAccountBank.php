@@ -99,7 +99,7 @@ final class MonetaryAccountBank
         $this->dailyLimit = new Money($monetaryBankAccount['daily_limit']['value'] * 100, $this->currency);
         $this->dailySpent = new Money($monetaryBankAccount['daily_spent']['value'] * 100, $this->currency);
 
-        foreach($monetaryBankAccount['notification_filters'] as $notificationFilter) {
+        foreach ($monetaryBankAccount['notification_filters'] as $notificationFilter) {
             $this->notificationFilters[] = NotificationFilter::fromArray($notificationFilter);
         }
     }

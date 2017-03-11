@@ -12,5 +12,4 @@ final class UserCompany extends User
     {
         return new self($userCompany);
     }
-
 }

@@ -67,7 +67,6 @@ final class Client
                 'User-Agent' => 'Link0 Bunq API Client'
             ]
         ]);
-
     }
 
     /**
@@ -154,7 +153,7 @@ final class Client
 
     private function mapResponse(string $key, array $value)
     {
-        switch($key) {
+        switch ($key) {
             case 'DeviceServer':
                 return DeviceServer::fromArray($value);
             case 'MonetaryAccountBank':
