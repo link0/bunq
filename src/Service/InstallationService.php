@@ -7,6 +7,7 @@ use Link0\Bunq\Domain\DeviceServer;
 use Link0\Bunq\Domain\Id;
 use Link0\Bunq\Domain\Installation;
 use Link0\Bunq\Domain\Keypair;
+use Link0\Bunq\Domain\Token;
 
 final class InstallationService
 {
@@ -25,9 +26,15 @@ final class InstallationService
 
     /**
      * @param Keypair $keypair
-     * @return mixed
+     * @return array
+     *
+     * Array(
+     *   'Id' => ...
+     *   'Token' => ...
+     *   'ServerPublicKey' ...
+     * )
      */
-    public function createInstallation(Keypair $keypair)
+    public function createInstallation(Keypair $keypair): array
     {
         // TODO: This doesn't need the signature middleware
         return $this->client->post('installation', [
@@ -39,7 +46,7 @@ final class InstallationService
      * @param Installation $installation
      * @return Id $deviceServerId
      */
-    public function createDeviceServer(Installation $installation, string $description, string $apiKey): Id
+    public function createDeviceServer(Token $token, string $apiKey, string $description): Id
     {
         $permittedIps = [];
 
@@ -50,16 +57,27 @@ final class InstallationService
         ];
 
         return $this->client->post('device-server', $body, [
-            'X-Bunq-Client-Authentication' => $installation->token(),
+            'X-Bunq-Client-Authentication' => (string) $token,
         ])[0];
     }
 
-    public function createSessionServer(Installation $installation, string $apiKey)
+    /**
+     * @param Token $token
+     * @param string $apiKey
+     * @return array
+     *
+     * Array(
+     *   'Id' => ...
+     *   'Token' => ...
+     *   'UserCompany' => ...
+     * )
+     */
+    public function createSessionServer(Token $token, string $apiKey): array
     {
         $body = ['secret' => $apiKey];
 
         $this->client->post('session-server', $body, [
-            'X-Bunq-Client-Authentication' => $installation->token(),
+            'X-Bunq-Client-Authentication' => $token,
         ]);
     }
 
@@ -75,14 +93,20 @@ final class InstallationService
     }
 
     /**
-     * @param Installation $installation
      * @return array
      */
-    public function listInstallations(Installation $installation)
+    public function listInstallations()
     {
-        return $this->client->get('installation', [
-            'X-Bunq-Client-Authentication' => $installation->token(),
-        ]);
+        return $this->client->get('installation');
+    }
+
+    /**
+     * @param Id $installationId
+     * @return Installation[]
+     */
+    public function installationById(Id $installationId)
+    {
+        return $this->client->get('installation/' . $installationId);
     }
 
     /**

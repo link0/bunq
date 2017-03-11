@@ -13,6 +13,7 @@ use Link0\Bunq\Domain\Keypair;
 use Link0\Bunq\Domain\Keypair\PublicKey;
 use Link0\Bunq\Domain\MonetaryAccountBank;
 use Link0\Bunq\Domain\Payment;
+use Link0\Bunq\Domain\Token;
 use Link0\Bunq\Domain\UserCompany;
 use Link0\Bunq\Domain\UserPerson;
 use Link0\Bunq\Middleware\DebugMiddleware;
@@ -38,7 +39,7 @@ final class Client
     /**
      * @param Environment $environment
      */
-    public function __construct(Environment $environment, Keypair $keypair, string $sessionToken = '')
+    public function __construct(Environment $environment, Keypair $keypair, PublicKey $serverPublicKey = null, string $sessionToken = '')
     {
         $this->handlerStack = HandlerStack::create();
 
@@ -53,10 +54,12 @@ final class Client
             'bunq_request_signature'
         );
 
-        $serverPublicKey = new PublicKey(file_get_contents(__DIR__ . '/../server_public_key.txt'));
-        $this->handlerStack->push(
-            Middleware::mapResponse(new ResponseSignatureMiddleware($serverPublicKey))
-        );
+        // If we have obtained the server's public key, we can verify responses
+        if ($serverPublicKey instanceof PublicKey) {
+            $this->handlerStack->push(
+                Middleware::mapResponse(new ResponseSignatureMiddleware($serverPublicKey))
+            );
+        }
 
         $this->handlerStack->push(DebugMiddleware::tap(), 'debug_tap');
 
@@ -168,6 +171,10 @@ final class Client
                 return Certificate::fromArray($value);
             case 'Payment':
                 return Payment::fromArray($value);
+            case 'ServerPublicKey':
+                return PublicKey::fromServerPublicKey($value);
+            case 'Token':
+                return Token::fromArray($value);
             default:
                 throw new \Exception("Unknown struct type: " . $key);
         }

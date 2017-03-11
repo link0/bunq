@@ -24,6 +24,15 @@ final class PublicKey
     }
 
     /**
+     * @param array $serverPublicKey
+     * @return PublicKey
+     */
+    public static function fromServerPublicKey(array $serverPublicKey)
+    {
+        return new self($serverPublicKey['server_public_key']);
+    }
+
+    /**
      * @return string
      */
     public function __toString()
