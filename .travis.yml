@@ -13,10 +13,10 @@ matrix:
         - php: hhvm
 
 before_script:
+  - phpenv config-rm xdebug.ini
   - COMPOSER_ROOT_VERSION=dev-master composer install --dev --prefer-source
 
 script:
-  - phpenv config-rm xdebug.ini
   - composer run phpcs
   - composer run phpstan
   - phpenv config-add xdebug.ini
