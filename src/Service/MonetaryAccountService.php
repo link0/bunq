@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Link0\Bunq\Service;
 
@@ -136,7 +136,7 @@ final class MonetaryAccountService
     private function updateNotificationFilters(MonetaryAccountBank $monetaryAccountBank, $notificationFilters)
     {
         $this->updateMonetaryAccount($monetaryAccountBank, [
-            'notification_filters' => array_map(function (NotificationFilter $notificationFilter) {
+            'notification_filters' => array_map(function(NotificationFilter $notificationFilter) {
                 return $notificationFilter->toArray();
             }, $notificationFilters),
         ]);
