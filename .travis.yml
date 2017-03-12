@@ -19,5 +19,3 @@ before_script:
 script:
   - composer run phpcs
   - composer run phpstan
-  - phpenv config-add xdebug.ini
-  - composer run phpunit
