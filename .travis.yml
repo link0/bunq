@@ -1,0 +1,21 @@
+language: php
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+php:
+    - 7
+    - 7.1
+
+matrix:
+    allow_failures:
+        - php: hhvm
+
+before_script:
+  - phpenv config-rm xdebug.ini
+  - composer install
+
+script:
+  - composer run phpcs
+  - composer run phpstan
