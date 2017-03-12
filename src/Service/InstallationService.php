@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Link0\Bunq\Service;
 
@@ -43,7 +43,6 @@ final class InstallationService
     }
 
     /**
-     * @param Installation $installation
      * @return Id $deviceServerId
      */
     public function createDeviceServer(Token $token, string $apiKey, string $description): Id

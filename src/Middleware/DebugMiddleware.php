@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Link0\Bunq\Middleware;
 
@@ -24,7 +24,7 @@ final class DebugMiddleware
     public static function request()
     {
         return function (RequestInterface $request) {
-            echo chr(27) . '[33m' .  "REQUEST: " . $request->getMethod() . ' ' . $request->getRequestTarget() . chr(27) . "[0m\n";
+            echo chr(27) . '[33m' . "REQUEST: " . $request->getMethod() . ' ' . $request->getRequestTarget() . chr(27) . "[0m\n";
 
             foreach ($request->getHeaders() as $key => $headers) {
                 foreach ($headers as $header) {
@@ -49,7 +49,7 @@ final class DebugMiddleware
     {
         return function (RequestInterface $request, $options, FulfilledPromise $responsePromise) {
             $responsePromise->then(function (ResponseInterface $response) {
-                echo chr(27) . '[33m' .  "RESPONSE: HTTP/" . $response->getProtocolVersion() . ' ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase() . chr(27) . "[0m\n";
+                echo chr(27) . '[33m' . "RESPONSE: HTTP/" . $response->getProtocolVersion() . ' ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase() . chr(27) . "[0m\n";
 
                 foreach ($response->getHeaders() as $key => $headers) {
                     foreach ($headers as $header) {
@@ -70,7 +70,7 @@ final class DebugMiddleware
     /**
      * @return callable
      */
-    public static function tap()
+    public static function tap(): callable
     {
         return Middleware::tap(
             self::request(),
