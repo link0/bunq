@@ -22,7 +22,7 @@ The following code example does a few things to get you started a fast a possibl
 
 Before you copy/paste this code besure you've a api key to use. When developing and testing the api you probably don't  want
 to use the api key for production. Instead you want to use a developer api key. 
-A developer api key can be obtained by asking the support desk from Bunq itself (using the Bunq app). Once you've got that
+A developer api key can be obtained by asking the support desk from bunq itself (using the Bunq app). Once you've got that
 api key you can fill it in into the `$apiKey` variable.
  
 The function `registerInstallationAndDeviceServer()` is only supposed to be called only once. After the first call you can comment this rule away.
@@ -71,7 +71,7 @@ $keypair = Keypair::fromStrings(
 // Replace this with what you received from the app
 $apiKey = 'your-api-key';
 
-$debugMode = ture;
+$debugMode = true;
 $environment = new Sandbox($debugMode);
 $client = new Client($environment, $keypair);
 
