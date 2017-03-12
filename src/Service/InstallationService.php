@@ -45,7 +45,7 @@ final class InstallationService
     /**
      * @return Id $deviceServerId
      */
-    public function createDeviceServer(Token $token, string $apiKey, string $description): Id
+    public function createDeviceServer($token, string $apiKey, string $description): Id
     {
         $permittedIps = [];
 
@@ -61,7 +61,7 @@ final class InstallationService
     }
 
     /**
-     * @param Token $token
+     * @param $token
      * @param string $apiKey
      * @return array
      *
@@ -71,7 +71,7 @@ final class InstallationService
      *   'UserCompany' => ...
      * )
      */
-    public function createSessionServer(Token $token, string $apiKey): array
+    public function createSessionServer($token, string $apiKey): array
     {
         $body = ['secret' => $apiKey];
 
