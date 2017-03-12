@@ -4,7 +4,6 @@ namespace Link0\Bunq;
 
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\HandlerStack;
-use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
 use Link0\Bunq\Domain\Certificate;
 use Link0\Bunq\Domain\DeviceServer;
@@ -20,8 +19,6 @@ use Link0\Bunq\Middleware\DebugMiddleware;
 use Link0\Bunq\Middleware\RequestIdMiddleware;
 use Link0\Bunq\Middleware\RequestSignatureMiddleware;
 use Link0\Bunq\Middleware\ResponseSignatureMiddleware;
-use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
 use Psr\Http\Message\ResponseInterface;
 
 final class Client
@@ -43,27 +40,10 @@ final class Client
     {
         $this->handlerStack = HandlerStack::create();
 
-        $this->handlerStack->push(
-            Middleware::mapRequest(new RequestIdMiddleware($sessionToken)),
-            'bunq_request_id'
-        );
-
-        // TODO: Figure out if we can skip this middleware on POST /installation
-        $this->handlerStack->push(
-            Middleware::mapRequest(new RequestSignatureMiddleware($keypair->privateKey())),
-            'bunq_request_signature'
-        );
-
-        // If we have obtained the server's public key, we can verify responses
-        if ($serverPublicKey instanceof PublicKey) {
-            $this->handlerStack->push(
-                Middleware::mapResponse(new ResponseSignatureMiddleware($serverPublicKey))
-            );
-        }
-
-        if ($environment->inDebugMode()) {
-            $this->handlerStack->push(DebugMiddleware::tap(), 'debug_tap');
-        }
+        $this->addRequestIdMiddleware($sessionToken);
+        $this->addRequestSignatureMiddleware($keypair);
+        $this->addServerResponseMiddleware($serverPublicKey);
+        $this->addDebugMiddleware($environment);
 
         $this->guzzle = new GuzzleClient([
             'base_uri' => $environment->endpoint(),
@@ -179,6 +159,56 @@ final class Client
                 return Token::fromArray($value);
             default:
                 throw new \Exception("Unknown struct type: " . $key);
+        }
+    }
+
+    /**
+     * @param string $sessionToken
+     * @return void
+     */
+    private function addRequestIdMiddleware(string $sessionToken)
+    {
+        $this->handlerStack->push(
+            Middleware::mapRequest(new RequestIdMiddleware($sessionToken)),
+            'bunq_request_id'
+        );
+    }
+
+    /**
+     * @param Keypair $keypair
+     * @return void
+     */
+    private function addRequestSignatureMiddleware(Keypair $keypair)
+    {
+        // TODO: Figure out if we can skip this middleware on POST /installation
+        $this->handlerStack->push(
+            Middleware::mapRequest(new RequestSignatureMiddleware($keypair->privateKey())),
+            'bunq_request_signature'
+        );
+    }
+
+    /**
+     * @param PublicKey|null $serverPublicKey
+     * @return void
+     */
+    private function addServerResponseMiddleware(PublicKey $serverPublicKey = null)
+    {
+        // If we have obtained the server's public key, we can verify responses
+        if ($serverPublicKey instanceof PublicKey) {
+            $this->handlerStack->push(
+                Middleware::mapResponse(new ResponseSignatureMiddleware($serverPublicKey))
+            );
+        }
+    }
+
+    /**
+     * @param Environment $environment
+     * @return void
+     */
+    private function addDebugMiddleware(Environment $environment)
+    {
+        if ($environment->inDebugMode()) {
+            $this->handlerStack->push(DebugMiddleware::tap(), 'debug_tap');
         }
     }
 }
