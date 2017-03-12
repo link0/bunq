@@ -61,7 +61,9 @@ final class Client
             );
         }
 
-        $this->handlerStack->push(DebugMiddleware::tap(), 'debug_tap');
+        if ($environment->inDebugMode()) {
+            $this->handlerStack->push(DebugMiddleware::tap(), 'debug_tap');
+        }
 
         $this->guzzle = new GuzzleClient([
             'base_uri' => $environment->endpoint(),

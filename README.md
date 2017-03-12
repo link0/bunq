@@ -27,7 +27,8 @@ $keypair = Keypair::fromStrings(
 // Replace this with what you received from the app
 $apiKey = 'foobarbaz';
 
-$environment = new Sandbox();
+$debugMode = true;
+$environment = new Sandbox($debugmode);
 $client = new Client($environment, $keypair);
 
 $installationService = new InstallationService($client);
