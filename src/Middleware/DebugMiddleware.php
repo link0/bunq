@@ -68,9 +68,9 @@ final class DebugMiddleware
     }
 
     /**
-     * @return \Closure
+     * @return callable
      */
-    public static function tap()
+    public static function tap(): callable
     {
         return Middleware::tap(
             self::request(),
