@@ -23,7 +23,7 @@ final class DebugMiddleware
      */
     public static function request()
     {
-        return function(RequestInterface $request) {
+        return function (RequestInterface $request) {
             echo chr(27) . '[33m' . "REQUEST: " . $request->getMethod() . ' ' . $request->getRequestTarget() . chr(27) . "[0m\n";
 
             foreach ($request->getHeaders() as $key => $headers) {
@@ -47,8 +47,8 @@ final class DebugMiddleware
      */
     public static function response()
     {
-        return function(RequestInterface $request, $options, FulfilledPromise $responsePromise) {
-            $responsePromise->then(function(ResponseInterface $response) {
+        return function (RequestInterface $request, $options, FulfilledPromise $responsePromise) {
+            $responsePromise->then(function (ResponseInterface $response) {
                 echo chr(27) . '[33m' . "RESPONSE: HTTP/" . $response->getProtocolVersion() . ' ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase() . chr(27) . "[0m\n";
 
                 foreach ($response->getHeaders() as $key => $headers) {
