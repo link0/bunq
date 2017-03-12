@@ -34,6 +34,7 @@ The function `registerInstallationAndDeviceServer()` is only supposed to be call
 use Link0\Bunq\Client;
 use Link0\Bunq\Domain\Keypair;
 use Link0\Bunq\Domain\Keypair\PublicKey;
+use Link0\Bunq\Environment\Production;
 use Link0\Bunq\Environment\Sandbox;
 use Link0\Bunq\Service\InstallationService;
 
@@ -72,6 +73,8 @@ $keypair = Keypair::fromStrings(
 $apiKey = 'your-api-key';
 
 $debugMode = true;
+
+//$environment = new Production($debugMode);
 $environment = new Sandbox($debugMode);
 $client = new Client($environment, $keypair);
 
