@@ -112,8 +112,12 @@ final class PaginatedResponse implements IteratorAggregate, ArrayAccess
         }
 
         if ($this->pagination['newer_url'] !== null) {
-            foreach ($this->client->get($this->pagination['newer_url']) as $newKey => $newValue) {
+            /** @var PaginatedResponse $nextPagination */
+            $nextPagination = $this->client->get($this->pagination['newer_url']);
+
+            foreach ($nextPagination as $newKey => $newValue) {
                 $this->list[] = $newValue;
+                unset($nextPagination->list[$newKey]);
                 yield $newKey => $newValue;
             }
         }
