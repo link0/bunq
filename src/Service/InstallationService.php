@@ -75,7 +75,7 @@ final class InstallationService
     {
         $body = ['secret' => $apiKey];
 
-        $this->client->post('session-server', $body, [
+        return $this->client->post('session-server', $body, [
             'X-Bunq-Client-Authentication' => $token,
         ]);
     }
