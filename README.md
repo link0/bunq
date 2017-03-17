@@ -7,25 +7,25 @@ link0/bunq
 [![Code Coverage](https://scrutinizer-ci.com/g/link0/bunq/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/link0/bunq/?branch=master)
 [![Build Status](https://scrutinizer-ci.com/g/link0/bunq/badges/build.png?b=master)](https://scrutinizer-ci.com/g/link0/bunq/build-status/master)
 
-This library implements the bunq API.
+This library implements the [bunq API](https://doc.bunq.com).
 
-Any feedback and testing is very much welcome though issues and/or pull requests.
+Any feedback and testing is very welcome through issues and/or pull requests.
 
 ## Basic usage
 
 
-The following code example does a few things to get you started a fast a possible:
+The following code example does a few things to get you started as fast as possible:
 
 1. Create an InstallationServer
 2. Create an DeviceServer
-3. Retrieve a session from de SessionServer to be able to use the api
+3. Retrieve a session from the SessionServer to be able to use the API
 
-Before you copy/paste this code besure you've a api key to use. When developing and testing the api you probably don't  want
-to use the api key for production. Instead you want to use a developer api key. 
-A developer api key can be obtained by asking the support desk from bunq itself (using the Bunq app). Once you've got that
-api key you can fill it in into the `$apiKey` variable.
- 
-The function `registerInstallationAndDeviceServer()` is only supposed to be called only once. After the first call you can comment this rule away.
+Before you copy/paste this code be sure you have an API key to use. When developing and testing the API you probably don't  want
+to use the API key for production. Instead you want to use a developer API key.
+A developer API key can be obtained by asking the support desk from bunq itself (using the bunq app). Once you've got that
+API key you can fill it in into the `$apiKey` variable.
+
+The function `registerInstallationAndDeviceServer()` is only supposed to be called once. After the first call you can comment this rule out.
 
 
 ```php
