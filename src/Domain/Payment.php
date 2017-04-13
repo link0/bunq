@@ -137,5 +137,4 @@ final class Payment
     {
         return $this->counterparty_alias;
     }
-
 }

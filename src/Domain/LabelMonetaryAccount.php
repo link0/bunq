@@ -2,7 +2,6 @@
 
 namespace Link0\Bunq\Domain;
 
-
 final class LabelMonetaryAccount
 {
     /**
@@ -49,5 +48,4 @@ final class LabelMonetaryAccount
     {
         return $this->display_name;
     }
-
 }
