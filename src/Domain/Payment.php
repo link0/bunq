@@ -43,6 +43,16 @@ final class Payment
      */
     private $type;
 
+    /**
+     * @var LabelMonetaryAccount
+     */
+    private $alias;
+
+    /**
+     * @var LabelMonetaryAccount
+     */
+    private $counterparty_alias;
+
     public static function fromArray($value)
     {
         $timezone = new DateTimeZone('UTC');
@@ -58,6 +68,74 @@ final class Payment
         $payment->description = $value['description'];
         $payment->type = $value['type'];
 
+        $payment->alias = LabelMonetaryAccount::fromArray($value['alias']);
+        $payment->counterparty_alias = LabelMonetaryAccount::fromArray($value['counterparty_alias']);
+
         return $payment;
     }
+
+    /**
+     * @return Id
+     */
+    public function id(): Id
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return DateTimeInterface
+     */
+    public function created(): DateTimeInterface
+    {
+        return $this->created;
+    }
+
+    /**
+     * @return DateTimeInterface
+     */
+    public function updated(): DateTimeInterface
+    {
+        return $this->updated;
+    }
+
+    /**
+     * @return Money
+     */
+    public function amount(): Money
+    {
+        return $this->amount;
+    }
+
+    /**
+     * @return string
+     */
+    public function description(): string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @return string
+     */
+    public function type(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @return LabelMonetaryAccount
+     */
+    public function alias(): LabelMonetaryAccount
+    {
+        return $this->alias;
+    }
+
+    /**
+     * @return LabelMonetaryAccount
+     */
+    public function counterpartyAlias(): LabelMonetaryAccount
+    {
+        return $this->counterparty_alias;
+    }
+
 }
