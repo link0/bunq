@@ -51,7 +51,7 @@ final class Payment
     /**
      * @var LabelMonetaryAccount
      */
-    private $counterparty_alias;
+    private $counterpartyAlias;
 
     public static function fromArray($value)
     {
@@ -69,7 +69,7 @@ final class Payment
         $payment->type = $value['type'];
 
         $payment->alias = LabelMonetaryAccount::fromArray($value['alias']);
-        $payment->counterparty_alias = LabelMonetaryAccount::fromArray($value['counterparty_alias']);
+        $payment->counterpartyAlias = LabelMonetaryAccount::fromArray($value['counterparty_alias']);
 
         return $payment;
     }
@@ -135,6 +135,6 @@ final class Payment
      */
     public function counterpartyAlias(): LabelMonetaryAccount
     {
-        return $this->counterparty_alias;
+        return $this->counterpartyAlias;
     }
 }

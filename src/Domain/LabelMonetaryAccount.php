@@ -7,12 +7,12 @@ final class LabelMonetaryAccount
     /**
      * @var string
      */
-    protected $iban;
+    private $iban;
 
     /**
      * @var string
      */
-    protected $display_name;
+    private $displayName;
 
     /**
      * LabelMonetaryAccount constructor.
@@ -21,7 +21,7 @@ final class LabelMonetaryAccount
     private function __construct(array $labelMonetaryAccount)
     {
         $this->iban = $labelMonetaryAccount['iban'];
-        $this->display_name = $labelMonetaryAccount['display_name'];
+        $this->displayName = $labelMonetaryAccount['display_name'];
     }
 
     /**
@@ -46,6 +46,6 @@ final class LabelMonetaryAccount
      */
     public function displayName(): string
     {
-        return $this->display_name;
+        return $this->displayName;
     }
 }
