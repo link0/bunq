@@ -5,7 +5,7 @@ namespace Link0\Bunq\Domain;
 final class NotificationFilter
 {
     const DELIVERYMETHOD_PUSH = 'PUSH';
-    const DELIVERYMETHOD_CALLBACK = 'CALLBACK';
+    const DELIVERYMETHOD_CALLBACK = 'URL';
 
     const CATEGORY_BILLING = 'BILLING';
     const CATEGORY_CARD_TRANSACTION_FAILED = 'CARD_TRANSACTION_FAILED';
