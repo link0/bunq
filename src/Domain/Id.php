@@ -29,11 +29,16 @@ final class Id
         return new Id($id);
     }
 
+    public function id()
+    {
+        return $this->id;
+    }
+
     /**
      * @return string
      */
     public function __toString()
     {
-        return (string) $this->id;
+        return (string) $this->id();
     }
 }
