@@ -3,7 +3,6 @@
 namespace Link0\Bunq\Middleware;
 
 use GuzzleHttp\Middleware;
-use GuzzleHttp\Promise\FulfilledPromise;
 use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
