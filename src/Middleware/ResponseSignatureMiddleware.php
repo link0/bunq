@@ -58,7 +58,6 @@ final class ResponseSignatureMiddleware
 
             $signatureData .= "\n\n";
             $signatureData .= (string) $response->getBody();
-
             $rawSignature = base64_decode($serverSignature);
             $verify = openssl_verify($signatureData, $rawSignature, $this->publicKey, self::SIGNATURE_ALGORITHM);
             if ($verify !== 1) {
