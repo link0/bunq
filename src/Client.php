@@ -21,7 +21,7 @@ use Link0\Bunq\Middleware\RequestSignatureMiddleware;
 use Link0\Bunq\Middleware\ResponseSignatureMiddleware;
 use Psr\Http\Message\ResponseInterface;
 
-final class Client
+final class Client implements ClientInterface
 {
     /**
      * @var GuzzleClient
