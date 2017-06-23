@@ -1,5 +1,4 @@
 <?php
-
 namespace Link0\Bunq;
 
 use GuzzleHttp\Client as GuzzleClient;
@@ -15,6 +14,7 @@ use Link0\Bunq\Domain\Payment;
 use Link0\Bunq\Domain\Token;
 use Link0\Bunq\Domain\UserCompany;
 use Link0\Bunq\Domain\UserPerson;
+use Link0\Bunq\Domain\RequestInquiry;
 use Link0\Bunq\Middleware\DebugMiddleware;
 use Link0\Bunq\Middleware\RequestIdMiddleware;
 use Link0\Bunq\Middleware\RequestSignatureMiddleware;
@@ -157,6 +157,9 @@ final class Client
                 return PublicKey::fromServerPublicKey($value);
             case 'Token':
                 return Token::fromArray($value);
+            case 'RequestInquiry':
+                return RequestInquiry::fromArray($value);
+                return $value;
             default:
                 throw new \Exception("Unknown struct type: " . $key);
         }
