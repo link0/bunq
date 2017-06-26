@@ -53,7 +53,7 @@ final class Client
             ]
         ];
 
-        if(is_array($proxy)){
+        if(is_string($proxy) || is_array($proxy)){
             $configuration['proxy'] = $proxy;
         }
 
