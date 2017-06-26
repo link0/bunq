@@ -2,6 +2,7 @@
 
 namespace Link0\Bunq;
 
+use Assert\Assertion;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
@@ -33,8 +34,10 @@ final class Client
      */
     private $handlerStack;
 
-    public function __construct(Environment $environment, Keypair $keypair, PublicKey $serverPublicKey = null, string $sessionToken = '', array $proxy = null)
+    public function __construct(Environment $environment, Keypair $keypair, PublicKey $serverPublicKey = null, string $sessionToken = '', $proxy = null)
     {
+        Assertion::true(is_null($proxy) || is_string($proxy) || is_array($proxy), 'In case a proxy parameter is provided, it should be either a string or an array.');
+
         $this->handlerStack = HandlerStack::create();
 
         $this->addRequestIdMiddleware($sessionToken);
