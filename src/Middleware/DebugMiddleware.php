@@ -4,6 +4,7 @@ namespace Link0\Bunq\Middleware;
 
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Promise\FulfilledPromise;
+use GuzzleHttp\Promise\RejectedPromise;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -47,7 +48,8 @@ final class DebugMiddleware
      */
     public static function response()
     {
-        return function (RequestInterface $request, $options, FulfilledPromise $responsePromise) {
+        return function (RequestInterface $request, $options, $responsePromise) {
+            /* @var FulfilledPromise | RejectedPromise $responsePromise */
             $responsePromise->then(function (ResponseInterface $response) {
                 echo chr(27) . '[33m' . "RESPONSE: HTTP/" . $response->getProtocolVersion() . ' ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase() . chr(27) . "[0m\n";
 
