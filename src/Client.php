@@ -95,7 +95,7 @@ final class Client
 
     private function processResponse(ResponseInterface $response): array
     {
-        $contents = (string) $response->getBody();
+        $contents = (string)$response->getBody();
         $json = json_decode($contents, true)['Response'];
 
         // Return empty responses
