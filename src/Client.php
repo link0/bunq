@@ -136,7 +136,7 @@ final class Client
             case 'Token':
                 return Token::fromArray($value);
             default:
-                throw new \Exception("Unknown struct type: " . $key);
+                throw new \Exception('Unknown struct type: ' . $key);
         }
     }
 
