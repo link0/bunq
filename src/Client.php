@@ -33,7 +33,7 @@ final class Client
      */
     private $handlerStack;
 
-    public function __construct(Environment $environment, Keypair $keypair, PublicKey $serverPublicKey = null, string $sessionToken = '')
+    public function __construct(Environment $environment, Keypair $keypair, PublicKey $serverPublicKey = null, string $sessionToken = '', array $proxy = null)
     {
         $this->handlerStack = HandlerStack::create();
 
@@ -42,13 +42,19 @@ final class Client
         $this->addServerResponseMiddleware($serverPublicKey);
         $this->addDebugMiddleware($environment);
 
-        $this->guzzle = new GuzzleClient([
+        $configuration = [
             'base_uri' => $environment->endpoint(),
             'handler' => $this->handlerStack,
             'headers' => [
                 'User-Agent' => 'Link0 Bunq API Client'
             ]
-        ]);
+        ];
+
+        if(is_array($proxy)){
+            $configuration['proxy'] = $proxy;
+        }
+
+        $this->guzzle = new GuzzleClient($configuration);
     }
 
     public function get(string $endpoint, array $headers = []): array
