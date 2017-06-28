@@ -2,6 +2,7 @@
 
 namespace Link0\Bunq;
 
+use Assert\Assertion;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
@@ -33,11 +34,10 @@ final class Client
      */
     private $handlerStack;
 
-    /**
-     * @param Environment $environment
-     */
-    public function __construct(Environment $environment, Keypair $keypair, PublicKey $serverPublicKey = null, string $sessionToken = '')
+    public function __construct(Environment $environment, Keypair $keypair, PublicKey $serverPublicKey = null, string $sessionToken = '', $proxy = null)
     {
+        Assertion::true(is_null($proxy) || is_string($proxy) || is_array($proxy), 'In case a proxy parameter is provided, it should be either a string or an array.');
+
         $this->handlerStack = HandlerStack::create();
 
         $this->addRequestIdMiddleware($sessionToken);
@@ -45,19 +45,21 @@ final class Client
         $this->addServerResponseMiddleware($serverPublicKey);
         $this->addDebugMiddleware($environment);
 
-        $this->guzzle = new GuzzleClient([
+        $configuration = [
             'base_uri' => $environment->endpoint(),
             'handler' => $this->handlerStack,
             'headers' => [
                 'User-Agent' => 'Link0 Bunq API Client'
             ]
-        ]);
+        ];
+
+        if (is_string($proxy) || is_array($proxy)) {
+            $configuration['proxy'] = $proxy;
+        }
+
+        $this->guzzle = new GuzzleClient($configuration);
     }
 
-    /**
-     * @param string $endpoint
-     * @return array
-     */
     public function get(string $endpoint, array $headers = []): array
     {
         return $this->processResponse(
@@ -67,12 +69,6 @@ final class Client
         );
     }
 
-    /**
-     * @param string $endpoint
-     * @param array $body
-     * @param array $headers
-     * @return array
-     */
     public function post(string $endpoint, array $body, array $headers = []): array
     {
         return $this->processResponse(
@@ -83,12 +79,6 @@ final class Client
         );
     }
 
-    /**
-     * @param string $endpoint
-     * @param array $body
-     * @param array $headers
-     * @return array
-     */
     public function put(string $endpoint, array $body, array $headers = []): array
     {
         return $this->processResponse(
@@ -102,6 +92,7 @@ final class Client
     /**
      * @param string $endpoint
      * @param array $headers
+     *
      * @return void
      */
     public function delete(string $endpoint, array $headers = [])
@@ -111,13 +102,9 @@ final class Client
         ]);
     }
 
-    /**
-     * @param ResponseInterface $response
-     * @return array
-     */
     private function processResponse(ResponseInterface $response): array
     {
-        $contents = (string) $response->getBody();
+        $contents = (string)$response->getBody();
         $json = json_decode($contents, true)['Response'];
 
         // Return empty responses
@@ -158,12 +145,13 @@ final class Client
             case 'Token':
                 return Token::fromArray($value);
             default:
-                throw new \Exception("Unknown struct type: " . $key);
+                throw new \Exception('Unknown struct type: ' . $key);
         }
     }
 
     /**
      * @param string $sessionToken
+     *
      * @return void
      */
     private function addRequestIdMiddleware(string $sessionToken)
@@ -176,6 +164,7 @@ final class Client
 
     /**
      * @param Keypair $keypair
+     *
      * @return void
      */
     private function addRequestSignatureMiddleware(Keypair $keypair)
@@ -189,6 +178,7 @@ final class Client
 
     /**
      * @param PublicKey|null $serverPublicKey
+     *
      * @return void
      */
     private function addServerResponseMiddleware(PublicKey $serverPublicKey = null)
@@ -203,6 +193,7 @@ final class Client
 
     /**
      * @param Environment $environment
+     *
      * @return void
      */
     private function addDebugMiddleware(Environment $environment)
