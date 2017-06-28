@@ -21,7 +21,7 @@ use Link0\Bunq\Middleware\RequestSignatureMiddleware;
 use Link0\Bunq\Middleware\ResponseSignatureMiddleware;
 use Psr\Http\Message\ResponseInterface;
 
-final class Client
+class Client
 {
     /**
      * @var GuzzleClient
@@ -58,7 +58,7 @@ final class Client
      * @param string $endpoint
      * @return array
      */
-    public function get(string $endpoint, array $headers = []): array
+    public function get(string $endpoint, array $headers = [])
     {
         return $this->processResponse(
             $this->guzzle->request('GET', $endpoint, [
@@ -73,7 +73,7 @@ final class Client
      * @param array $headers
      * @return array
      */
-    public function post(string $endpoint, array $body, array $headers = []): array
+    public function post(string $endpoint, array $body, array $headers = [])
     {
         return $this->processResponse(
             $this->guzzle->request('POST', $endpoint, [
@@ -89,7 +89,7 @@ final class Client
      * @param array $headers
      * @return array
      */
-    public function put(string $endpoint, array $body, array $headers = []): array
+    public function put(string $endpoint, array $body, array $headers = [])
     {
         return $this->processResponse(
             $this->guzzle->request('PUT', $endpoint, [
@@ -113,30 +113,17 @@ final class Client
 
     /**
      * @param ResponseInterface $response
-     * @return array
+     * @return array|PaginatedResponse
      */
-    private function processResponse(ResponseInterface $response): array
+    private function processResponse(ResponseInterface $response)
     {
         $contents = (string) $response->getBody();
-        $json = json_decode($contents, true)['Response'];
+        $json = json_decode($contents, true);
 
-        // Return empty responses
-        if (count($json) === 0) {
-            return [];
-        }
-
-        foreach ($json as $key => $value) {
-            if (is_numeric($key)) {
-                // Often only a single associative entry here
-                foreach ($value as $type => $struct) {
-                    $json[$key] = $this->mapResponse($type, $struct);
-                }
-            }
-        }
-        return $json;
+        return new PaginatedResponse($this, $json);
     }
 
-    private function mapResponse(string $key, array $value)
+    public function mapResponse(string $key, array $value)
     {
         switch ($key) {
             case 'DeviceServer':

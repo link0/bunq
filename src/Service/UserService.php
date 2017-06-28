@@ -24,7 +24,7 @@ final class UserService
     /**
      * @return User[]
      */
-    public function listUsers(): array
+    public function listUsers()
     {
         return $this->client->get('user');
     }
