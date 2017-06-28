@@ -3,20 +3,21 @@
 namespace Link0\Bunq\Service;
 
 use Link0\Bunq\Client;
+use Link0\Bunq\ClientInterface;
 use Link0\Bunq\Domain\Id;
 use Link0\Bunq\Domain\User;
 
 final class UserService
 {
     /**
-     * @var Client
+     * @var ClientInterface
      */
     private $client;
 
     /**
-     * @param Client $client
+     * @param ClientInterface $client
      */
-    public function __construct(Client $client)
+    public function __construct(ClientInterface $client)
     {
         $this->client = $client;
     }

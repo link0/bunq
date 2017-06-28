@@ -18,4 +18,5 @@ before_script:
 
 script:
   - composer run phpcs
+  - ./vendor/bin/phpunit
   - composer run phpstan

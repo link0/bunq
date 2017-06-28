@@ -8,7 +8,14 @@ use Ramsey\Uuid\Uuid;
 
 final class RequestIdMiddleware
 {
+    /**
+     * @var string
+     */
     private $sessionToken;
+
+    /**
+     * @param string $sessionToken
+     */
     public function __construct($sessionToken)
     {
         $this->sessionToken = $sessionToken;
