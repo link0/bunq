@@ -28,22 +28,22 @@ final class RequestInquiry
     /**
      * @var DateTimeInterface
      */
-    private $time_responded;
+    private $timeResponded;
 
     /**
      * @var DateTimeInterface
      */
-    private $time_expiry;
+    private $timeExpiry;
 
     /**
      * @var Money
      */
-    private $amount_inquired;
+    private $amountInquired;
 
     /**
      * @var Money
      */
-    private $amount_responded;
+    private $amountResponded;
 
     /**
      * @var string
@@ -58,17 +58,17 @@ final class RequestInquiry
     /**
      * @var LabelMonetaryAccount
      */
-    private $user_alias_created;
+    private $userAliasCreated;
 
     /**
      * @var LabelMonetaryAccount
      */
-    private $user_alias_revoked;
+    private $userAliasRevoked;
 
     /**
      * @var LabelMonetaryAccount;
      */
-    private $counterparty_alias;
+    private $counterpartyAlias;
 
 
     /**
@@ -84,22 +84,22 @@ final class RequestInquiry
 
         $this->created = new \DateTimeImmutable($requestInquiry['created'], $timezone);
         $this->updated = new \DateTimeImmutable($requestInquiry['updated'], $timezone);
-        $this->time_responded = is_null($requestInquiry['time_responded']) ? null : new \DateTimeImmutable($requestInquiry['time_responded'], $timezone);
-        $this->time_expiry = is_null($requestInquiry['time_expiry']) ? null : new \DateTimeImmutable($requestInquiry['time_expiry'], $timezone);
+        $this->timeResponded = is_null($requestInquiry['timeResponded']) ? null : new \DateTimeImmutable($requestInquiry['timeResponded'], $timezone);
+        $this->timeExpiry = is_null($requestInquiry['timeExpiry']) ? null : new \DateTimeImmutable($requestInquiry['timeExpiry'], $timezone);
 
-        $this->amount_inquired = new Money(
-            $requestInquiry['amount_inquired']['value'] * 100, // cents
-            new Currency($requestInquiry['amount_inquired']['currency'])
+        $this->amountInquired = new Money(
+            $requestInquiry['amountInquired']['value'] * 100, // cents
+            new Currency($requestInquiry['amountInquired']['currency'])
         );
 
-        $this->amount_responded = is_null($requestInquiry['amount_responded']) ? null : new Money(
-            $requestInquiry['amount_responded']['value'] * 100, // cents
-            new Currency($requestInquiry['amount_responded']['currency'])
+        $this->amountResponded = is_null($requestInquiry['amountResponded']) ? null : new Money(
+            $requestInquiry['amountResponded']['value'] * 100, // cents
+            new Currency($requestInquiry['amountResponded']['currency'])
         );
 
-        $this->user_alias_created = LabelMonetaryAccount::fromArray($requestInquiry['user_alias_created']);
-        $this->user_alias_revoked = is_null($requestInquiry['user_alias_revoked']) ? null : LabelMonetaryAccount::fromArray($requestInquiry['user_alias_revoked']);
-        $this->counterparty_alias = LabelMonetaryAccount::fromArray($requestInquiry['counterparty_alias']);
+        $this->userAliasCreated = LabelMonetaryAccount::fromArray($requestInquiry['userAliasCreated']);
+        $this->userAliasRevoked = is_null($requestInquiry['userAliasRevoked']) ? null : LabelMonetaryAccount::fromArray($requestInquiry['userAliasRevoked']);
+        $this->counterpartyAlias = LabelMonetaryAccount::fromArray($requestInquiry['counterpartyAlias']);
     }
 
     /**
@@ -138,33 +138,33 @@ final class RequestInquiry
     /**
      * @return DateTimeInterface
      */
-    public function time_responded(): DateTimeInterface
+    public function timeResponded(): DateTimeInterface
     {
-        return $this->time_responded;
+        return $this->timeResponded;
     }
 
     /**
      * @return DateTimeInterface
      */
-    public function time_expiry(): DateTimeInterface
+    public function timeExpiry(): DateTimeInterface
     {
-        return $this->time_expiry;
+        return $this->timeExpiry;
     }
 
     /**
      * @return Money
      */
-    public function amount_inquired(): Money
+    public function amountInquired(): Money
     {
-        return $this->amount_inquired;
+        return $this->amountInquired;
     }
 
     /**
      * @return Money
      */
-    public function amount_responded(): Money
+    public function amountResponded(): Money
     {
-        return $this->amount_responded;
+        return $this->amountResponded;
     }
 
     /**
@@ -186,24 +186,24 @@ final class RequestInquiry
     /**
      * @return LabelMonetaryAccount
      */
-    public function user_alias_created(): LabelMonetaryAccount
+    public function userAliasCreated(): LabelMonetaryAccount
     {
-        return $this->user_alias_created;
+        return $this->userAliasCreated;
     }
 
     /**
      * @return LabelMonetaryAccount
      */
-    public function user_alias_revoked(): LabelMonetaryAccount
+    public function userAliasRevoked(): LabelMonetaryAccount
     {
-        return $this->user_alias_revoked;
+        return $this->userAliasRevoked;
     }
 
     /**
      * @return LabelMonetaryAccount
      */
-    public function counterparty_alias(): LabelMonetaryAccount
+    public function counterpartyAlias(): LabelMonetaryAccount
     {
-        return $this->counterparty_alias;
+        return $this->counterpartyAlias;
     }
 }
