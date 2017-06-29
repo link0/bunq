@@ -159,7 +159,6 @@ final class Client
                 return Token::fromArray($value);
             case 'RequestInquiry':
                 return RequestInquiry::fromArray($value);
-                return $value;
             default:
                 throw new \Exception("Unknown struct type: " . $key);
         }
